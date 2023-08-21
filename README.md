@@ -1,1 +1,1 @@
-# CocoMediaSDKTest
+# cococlientsdk-swift
