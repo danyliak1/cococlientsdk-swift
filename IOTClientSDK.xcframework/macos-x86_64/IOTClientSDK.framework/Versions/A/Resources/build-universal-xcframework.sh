@@ -23,7 +23,7 @@ if [ "$CONAN_PKG_CHANNEL_NAME" == "" ]; then
   CONAN_PKG_CHANNEL_NAME=master
 fi
 
-sh ./CIOTClientSDK/fetch-conan-libs.sh --channel ${CONAN_PKG_CHANNEL_NAME}
+./CIOTClientSDK/fetch-conan-libs.sh --channel ${CONAN_PKG_CHANNEL_NAME}
 
 NAME=IOTClientSDK
 
@@ -40,37 +40,37 @@ if [ -d "${NAME}.xcframework" ]; then
   rm -rf "${NAME}.xcframework"
 fi
 
-mkdir ${BUILD_DIR}
-mkdir ${OUTPUT_DIR}
+echo ">>>>>>>>>>>>>>>>>> building iOS Phone"
 
 # iOS devices
 TARGET=iOS
 xcodebuild archive \
   -workspace ${NAME}.xcworkspace \
   -scheme ${NAME}-${TARGET}-${CONAN_PKG_CHANNEL_NAME} \
-  SYMROOT=$(PWD)/build \
   -archivePath "./${OUTPUT_DIR}/${NAME}-iphoneos-${CONAN_PKG_CHANNEL_NAME}.xcarchive" \
   -sdk iphoneos \
   SKIP_INSTALL=NO \
   BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
+echo ">>>>>>>>>>>>>>>>>> building iOS Sim"
 
 # iOS simulator
 TARGET=iOS
 xcodebuild archive \
   -workspace ${NAME}.xcworkspace \
   -scheme ${NAME}-${TARGET}-${CONAN_PKG_CHANNEL_NAME} \
-  SYMROOT=$(PWD)/build \
   -archivePath "./${OUTPUT_DIR}/${NAME}-iphonesimulator-${CONAN_PKG_CHANNEL_NAME}.xcarchive" \
   -sdk iphonesimulator \
   SKIP_INSTALL=NO \
   BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+
+echo ">>>>>>>>>>>>>>>>>> building macOS"
 
 # macOS devices
 TARGET=macOS
 xcodebuild archive \
   -workspace ${NAME}.xcworkspace \
   -scheme ${NAME}-${TARGET}-${CONAN_PKG_CHANNEL_NAME} \
-  SYMROOT=$(PWD)/build \
   -archivePath "./${OUTPUT_DIR}/${NAME}-macosx-${CONAN_PKG_CHANNEL_NAME}.xcarchive" \
   -sdk macosx \
   SKIP_INSTALL=NO \
@@ -83,6 +83,8 @@ do
   FWMK_FILES_CMD="-framework ${FWMK_FILE} ${FWMK_FILES_CMD}"
 done
 
+echo ">>>>>>>>>>>>>>>>>> building xcframework"
+# building the xc framework
 xcodebuild -create-xcframework \
   ${FWMK_FILES_CMD} \
   -output "${NAME}.xcframework"

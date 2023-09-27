@@ -4,13 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Development.xcconfig</key>
-		<data>
-		BJ2HJU6ik55RHJhPa74q+ZSNDbA=
-		</data>
 		<key>Headers/IOTClientSDK-Swift.h</key>
 		<data>
-		IdpLdHhI2AV87FOqkQOmUwBHr0E=
+		RFPZlSJ/NCKqvZj6H3CShpZgqTk=
 		</data>
 		<key>Headers/IOTClientSDK.h</key>
 		<data>
@@ -22,7 +18,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		hZ3h4KruqUxb3JM71eRO/H9kg7E=
+		743yCsU9O/NLNxDnNwN/vGNbzk4=
 		</data>
 		<key>LICENSE</key>
 		<data>
@@ -30,95 +26,40 @@
 		</data>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		F6fMHu0aRO+mfyAMOvNsv+4XZms=
+		sMza/BwtgNxzx1Q/00kedYrIGuo=
 		</data>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		YYrH499RtFLzFJz9e4TgCYiSsAI=
+		GeTxOwGLEU6WJHmzIUDYQGt373A=
 		</data>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		ZPTidGqUeP6GsHVc1SZiR+5HUQ0=
+		3bwvCCZrNOBNphvwuHJcPWL3Xmg=
 		</data>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		YYrH499RtFLzFJz9e4TgCYiSsAI=
+		GeTxOwGLEU6WJHmzIUDYQGt373A=
 		</data>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		Nm4CYRIUmKs/Za5kAAeAwrJ9Tp8=
+		nby0cNgu/+q9h/E1iUDi1hx3SmY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		OrdO6f8a8J1zK22f2YVnXQlluFc=
 		</data>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.development.xcconfig</key>
-		<data>
-		ZlJnKgi8fyvaZnSmqaPYAq23uAk=
-		</data>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.production-debug.xcconfig</key>
-		<data>
-		ZlJnKgi8fyvaZnSmqaPYAq23uAk=
-		</data>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.production.xcconfig</key>
-		<data>
-		ZlJnKgi8fyvaZnSmqaPYAq23uAk=
-		</data>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.staging.xcconfig</key>
-		<data>
-		ZlJnKgi8fyvaZnSmqaPYAq23uAk=
-		</data>
-		<key>Pods-IOTClientSDK.development.xcconfig</key>
-		<data>
-		UJlI+kaDOLMOj4m3xI6mF+w6gdo=
-		</data>
-		<key>Pods-IOTClientSDK.production-debug.xcconfig</key>
-		<data>
-		UJlI+kaDOLMOj4m3xI6mF+w6gdo=
-		</data>
-		<key>Pods-IOTClientSDK.production.xcconfig</key>
-		<data>
-		UJlI+kaDOLMOj4m3xI6mF+w6gdo=
-		</data>
-		<key>Pods-IOTClientSDK.staging.xcconfig</key>
-		<data>
-		UJlI+kaDOLMOj4m3xI6mF+w6gdo=
-		</data>
-		<key>Production.xcconfig</key>
-		<data>
-		QIR3AvqJmxDSF2P7/ebGudYVJCE=
-		</data>
 		<key>README.md</key>
 		<data>
 		uQJhtw9bb5ChK8aTOaSp9QnDCII=
 		</data>
-		<key>Staging.xcconfig</key>
-		<data>
-		hcHEDTUd7v2TJKT7lAuxtLAFM9I=
-		</data>
-		<key>build-universal-framework.sh</key>
-		<data>
-		7EVMYrOA1a5ALhF5EfmDDWWCOJ4=
-		</data>
-		<key>build-universal-xcframework.sh</key>
-		<data>
-		oaekut93km4YWnQNQZakMidyNMI=
-		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Development.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			45sYPYnPegoX3BhJU1jPNSEJiXYtUs9hLb60O9vxYpw=
-			</data>
-		</dict>
 		<key>Headers/IOTClientSDK-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2/xeZjznQYDA+2OEUaawm89Fxlp44Vuch+tOWjvXt30=
+			96ucly0+ssmNaUelmFPPh9buwvAC2KvM15KfE2qcgO4=
 			</data>
 		</dict>
 		<key>Headers/IOTClientSDK.h</key>
@@ -146,35 +87,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			OihWLlYIUItY2OVdQwgxp4lzkcWzLTWnCIXuTa2r2xk=
+			9ZaEzyk7SG29h9RVO5ZspVvasS63niImWMwDShOtiOQ=
 			</data>
 		</dict>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			MWKozE80yh+++vf4T+Vk6/100SODoA+KpaC1Cdb7Wns=
+			Hb7+2MabPX7pYAdhRyrfC244axY1B25WoC8wdFOkl1A=
 			</data>
 		</dict>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FIpUe9odH0YO89B8MoIctRBWp7LrbXi0PgExhMr9Z6c=
+			0kr/RBH59VI8rMqFKs97MEjRmy9fsFaNhttFF8llZRA=
 			</data>
 		</dict>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			MWKozE80yh+++vf4T+Vk6/100SODoA+KpaC1Cdb7Wns=
+			Hb7+2MabPX7pYAdhRyrfC244axY1B25WoC8wdFOkl1A=
 			</data>
 		</dict>
 		<key>Modules/IOTClientSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vUAovihZfbyyS4/5o2o8Za7KTKqxxLqpkhjNdj9Om7c=
+			toRhEQk2gaD8GXSme70LZHFOIvRaHm56Qy9O8Sy0alY=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -184,95 +125,11 @@
 			qGb6e2T+apOUqZoKSgG/7D86C/1VZKXZ5d9h5IEYFwI=
 			</data>
 		</dict>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.development.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			zipg8kWASLxVgPmawgafJU2wUGXRTxfq9HQJl2kkcgQ=
-			</data>
-		</dict>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.production-debug.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			zipg8kWASLxVgPmawgafJU2wUGXRTxfq9HQJl2kkcgQ=
-			</data>
-		</dict>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.production.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			zipg8kWASLxVgPmawgafJU2wUGXRTxfq9HQJl2kkcgQ=
-			</data>
-		</dict>
-		<key>Pods-IOTClientSDK-IOTClientSDKTests.staging.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			zipg8kWASLxVgPmawgafJU2wUGXRTxfq9HQJl2kkcgQ=
-			</data>
-		</dict>
-		<key>Pods-IOTClientSDK.development.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bjUT65uHjFl2p7gz/pez/TuCJ4NcUvXKc0Vpn+8VaDU=
-			</data>
-		</dict>
-		<key>Pods-IOTClientSDK.production-debug.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bjUT65uHjFl2p7gz/pez/TuCJ4NcUvXKc0Vpn+8VaDU=
-			</data>
-		</dict>
-		<key>Pods-IOTClientSDK.production.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bjUT65uHjFl2p7gz/pez/TuCJ4NcUvXKc0Vpn+8VaDU=
-			</data>
-		</dict>
-		<key>Pods-IOTClientSDK.staging.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bjUT65uHjFl2p7gz/pez/TuCJ4NcUvXKc0Vpn+8VaDU=
-			</data>
-		</dict>
-		<key>Production.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			e19ZzvcEk5zyR+pV9zLLG4bu5CvIE4X8E25WY3oh0vc=
-			</data>
-		</dict>
 		<key>README.md</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			clOb454auhn5IA/05L2WknXFVHBpv/J1Y7xNdYJVE10=
-			</data>
-		</dict>
-		<key>Staging.xcconfig</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			/OvJOiw8t8ErVsfgJZE+vraSZ8M2XztkDUgEbEN4aJs=
-			</data>
-		</dict>
-		<key>build-universal-framework.sh</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			uqXFthSbH3UXt++BbqvkPFG+N3utwl0cPGZAEe6/G2o=
-			</data>
-		</dict>
-		<key>build-universal-xcframework.sh</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			LMOH3KVqLtXH6WB2Mz9+r0H2KWvbd7+qXWlh9ZRwNDE=
 			</data>
 		</dict>
 	</dict>

@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
 // swift-module-flags: -target x86_64-apple-macos10.15 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name IOTClientSDK
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import Foundation
@@ -46,9 +46,9 @@ public enum DataType : Swift.Int32, Swift.Hashable, Swift.Codable {
   }
 }
 open class Attribute : Swift.Codable {
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public init(attributeId: Swift.Int32, parent: IOTClientSDK.Capability)
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open func setName(name: Swift.String)
   open func setDescription(description: Swift.String)
   open func setDataTypeValue(dataType: IOTClientSDK.Attribute.DataTypeValue)
@@ -237,7 +237,9 @@ public class InfoResponse {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class Frame {
@@ -306,7 +308,9 @@ public class InfoResponse {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityTemperatureSensing : IOTClientSDK.Capability {
@@ -341,13 +345,15 @@ public class InfoResponse {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 open class Device : Swift.Codable {
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public init(deviceNodeId: Swift.UInt32, parent: IOTClientSDK.Network?)
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open func setParent(network: IOTClientSDK.Network)
   open func setName(name: Swift.String)
   open func setDeviceType(type: Swift.Bool)
@@ -571,8 +577,12 @@ public class DeviceCommandStatus {
     case COCO_STD_ATTR_STORAGE_RECORDING_SIZE_CONFIG
     case COCO_STD_ATTR_STORAGE_LAST_UPDATED_CONTENT_METADATA
     case COCO_STD_ATTR_STORAGE_COOL_OFF_PERIOD
-    case COCO_STD_ATTR_STORAGE_RECORDING_IN_PROGRESS
     case COCO_STD_ATTR_STORAGE_RECORDING_STARTED
+    case COCO_STD_ATTR_STORAGE_SUPPORTED_STREAM_PROTOCOLS
+    case COCO_STD_ATTR_STORAGE_RETENTION_PERIOD
+    case COCO_STD_ATTR_STORAGE_RECORDING_INFO
+    case COCO_STD_ATTR_STORAGE_NUM_CAMERAS_CONFIGURED
+    case COCO_STD_ATTR_STORAGE_MAX_NUM_CAMERAS_CONFIGURABLE
     case COCO_STD_ATTR_STORAGE_CONTROL_MAX
     case COCO_STD_ATTR_STORAGE_CONTROL_UBOUND
     public func getInt() -> Swift.Int32
@@ -591,6 +601,7 @@ public class DeviceCommandStatus {
     case COCO_STD_CMD_STORAGE_UPLOAD
     case COCO_STD_CMD_STORAGE_DOWNLOAD
     case COCO_STD_CMD_STORAGE_GET_METADATA
+    case COCO_STD_CMD_STORAGE_DELETE_RECORDINGS_OF_RESOURCE
     case COCO_STD_CMD_STORAGE_CONTROL_MAX
     case COCO_STD_CMD_STORAGE_CONTROL_UBOUND
     public func getInt() -> Swift.Int32
@@ -639,9 +650,11 @@ public class DeviceCommandStatus {
     public init(contentId: Swift.UInt64, channelPort: Swift.UInt16, offset: Swift.UInt32, size: Swift.UInt32)
     @objc deinit
   }
-  public func downloadSegment(contentId: Swift.Int64, sdp: Swift.String, segmentIds: [Swift.Int64], timeoutMs: Swift.UInt32, numOfSegments: Swift.UInt32, handler: ((IOTClientSDK.CommandStateCB) -> Swift.Void)?, commandContext: Swift.UnsafeMutableRawPointer?)
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
-  required public init(from decoder: Swift.Decoder) throws
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  public func downloadSegment(contentId: Swift.Int64, sdp: Swift.String, segmentIds: [Swift.Int64], timeoutMs: Swift.UInt32, numOfSegments: Swift.UInt32, commandContext: Swift.UnsafeMutableRawPointer?)
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  required public init(from decoder: any Swift.Decoder) throws
   override public init(capabilityId: Swift.Int32, parent: IOTClientSDK.Resource)
   @objc deinit
 }
@@ -878,7 +891,9 @@ extension IOTClientSDK.ConnectivityStateManager : IOTClientSDK.CocoCallbackDeleg
     }
     @objc deinit
   }
-  required public init(from decoder: Swift.Decoder) throws
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  required public init(from decoder: any Swift.Decoder) throws
   override public init(capabilityId: Swift.Int32, parent: IOTClientSDK.Resource)
   @objc deinit
 }
@@ -1169,7 +1184,9 @@ public class StreamReceivedData {
     public init(onFlag: Swift.Bool)
     @objc deinit
   }
-  required public init(from decoder: Swift.Decoder) throws
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  required public init(from decoder: any Swift.Decoder) throws
   override public init(capabilityId: Swift.Int32, parent: IOTClientSDK.Resource)
   @objc deinit
 }
@@ -1241,14 +1258,16 @@ public class StreamReceivedData {
     @objc deinit
   }
   public class CommandCaptureSnapshot : IOTClientSDK.CapabilitySnapshot.CommandSnapshot {
-    public init(commandID: IOTClientSDK.CapabilitySnapshot.CommandId, pixelHeight: Swift.UInt16, pixelWidth: Swift.UInt16, downloadPath: Swift.String, delegate: IOTClientSDK.SnapshotDelegate, timeoutMs: Swift.UInt32)
+    public init(commandID: IOTClientSDK.CapabilitySnapshot.CommandId, pixelHeight: Swift.UInt16, pixelWidth: Swift.UInt16, downloadPath: Swift.String, delegate: any IOTClientSDK.SnapshotDelegate, timeoutMs: Swift.UInt32)
     public var downloadPath: Swift.String {
       get
     }
     @objc deinit
   }
-  public func captureSnapshot(pixelHeight: Swift.UInt16, pixelWidth: Swift.UInt16, downloadPath: Swift.String, delegate: IOTClientSDK.SnapshotDelegate, timeoutMs: Swift.UInt32, commandContext: Swift.UnsafeMutableRawPointer?)
-  required public init(from decoder: Swift.Decoder) throws
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  public func captureSnapshot(pixelHeight: Swift.UInt16, pixelWidth: Swift.UInt16, downloadPath: Swift.String, delegate: any IOTClientSDK.SnapshotDelegate, timeoutMs: Swift.UInt32, commandContext: Swift.UnsafeMutableRawPointer?)
+  required public init(from decoder: any Swift.Decoder) throws
   override public init(capabilityId: Swift.Int32, parent: IOTClientSDK.Resource)
   @objc deinit
 }
@@ -1325,9 +1344,11 @@ public class Parameter {
     public var rssi: Swift.Int?
     public var measuredPower: Swift.Int?
     @objc deinit
-    public func encode(to encoder: Swift.Encoder) throws
-    required public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    required public init(from decoder: any Swift.Decoder) throws
   }
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityNetworkConfiguration : IOTClientSDK.Capability {
@@ -1348,6 +1369,8 @@ public class Parameter {
       get
     }
   }
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoRespSearch : IOTClientSDK.InfoResponseValue {
@@ -1390,8 +1413,8 @@ public class SearchResultBrand {
     get
   }
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
-  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers public class InfoRespRemotePairingCode : IOTClientSDK.InfoResponseValue {
   public init(pairingCodes: [Swift.UInt16])
@@ -1518,7 +1541,9 @@ public class SearchResultBrand {
     }
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 public class Tunnel {
@@ -1646,7 +1671,9 @@ public class Tunnel {
     public init()
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 public protocol Creator {
@@ -1673,13 +1700,13 @@ open class CommandResponse : Swift.Codable {
     get
   }
   @objc deinit
-  open func encode(to encoder: Swift.Encoder) throws
-  required public init(from decoder: Swift.Decoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers public class TunnelRTSPParameter : Swift.Codable {
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
-  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 open class SceneAction : Swift.Hashable, Swift.Codable {
   public init(sceneId: Swift.UInt16)
@@ -1689,11 +1716,11 @@ open class SceneAction : Swift.Hashable, Swift.Codable {
   public static func == (lhs: IOTClientSDK.SceneAction, rhs: IOTClientSDK.SceneAction) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   @objc deinit
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open var hashValue: Swift.Int {
     get
   }
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityDlock : IOTClientSDK.Capability {
   public enum AttributeId : Swift.Int32, IOTClientSDK.AttributeIDProtocol, Swift.Hashable, Swift.Codable, Swift.CaseIterable {
@@ -1830,7 +1857,9 @@ open class SceneAction : Swift.Hashable, Swift.Codable {
     }
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoReqRemoteParingCodes : IOTClientSDK.InfoRequestValue {
@@ -1877,7 +1906,9 @@ open class SceneAction : Swift.Hashable, Swift.Codable {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityTunnel : IOTClientSDK.Capability {
@@ -2028,7 +2059,9 @@ open class SceneAction : Swift.Hashable, Swift.Codable {
     }
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityAirQualitySensing : IOTClientSDK.Capability {
@@ -2064,7 +2097,9 @@ open class SceneAction : Swift.Hashable, Swift.Codable {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class IOTClient {
@@ -2077,10 +2112,10 @@ open class SceneAction : Swift.Hashable, Swift.Codable {
   public var networkStatus: [Swift.String : IOTClientSDK.NetworkDatum] {
     get
   }
-  public var devCreator: IOTClientSDK.Creator? {
+  public var devCreator: (any IOTClientSDK.Creator)? {
     get
   }
-  public static func setup(cwdPath: Swift.String, appScope: Swift.String, clientId: Swift.String, downloadPath: Swift.String, oauthDelegate: IOTClientSDK.OAuthDelegate, cocoCallbackDelegate: IOTClientSDK.CocoCallbackDelegate, connectivityTimers: IOTClientSDK.ConnectivityTimers?, userAgent: Swift.String = defaultUserAgent, creator: IOTClientSDK.Creator?) throws
+  public static func setup(cwdPath: Swift.String, appScope: Swift.String, clientId: Swift.String, downloadPath: Swift.String, oauthDelegate: any IOTClientSDK.OAuthDelegate, cocoCallbackDelegate: any IOTClientSDK.CocoCallbackDelegate, connectivityTimers: IOTClientSDK.ConnectivityTimers?, userAgent: Swift.String = defaultUserAgent, creator: (any IOTClientSDK.Creator)?) throws
   public static func setTokens(response: Swift.String) throws
   public static func getAccessToken(handler: ((Swift.String, IOTClientSDK.StatusCode) -> Swift.Void)?) throws
   public func getSavedCoconets() throws -> [IOTClientSDK.Network]
@@ -2184,7 +2219,9 @@ public class ConnectivityTimers {
     }
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoRespInstallCode : IOTClientSDK.InfoResponseValue {
@@ -2253,7 +2290,9 @@ public class ConnectivityTimers {
     public init()
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityColor : IOTClientSDK.Capability {
@@ -2366,7 +2405,9 @@ public class ConnectivityTimers {
     override public func getCStructure() -> Swift.UnsafeMutableRawPointer?
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoRespDSK : IOTClientSDK.InfoResponseValue {
@@ -2391,10 +2432,10 @@ public class ConnectivityTimers {
   @objc deinit
 }
 open class Resource : Swift.Codable {
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public init(eui: Swift.String, parentDevice: IOTClientSDK.Device)
   public init(eui: Swift.String, parentZone: IOTClientSDK.Zone, parentDevice: IOTClientSDK.Device)
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open func setName(name: Swift.String)
   open func setManufacturer(manufacturer: Swift.String?)
   open func setModel(model: Swift.String?)
@@ -2538,9 +2579,9 @@ public class AdvertiseResource : Swift.Hashable, Swift.Equatable {
   }
 }
 open class Zone : Swift.Codable {
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public init(zoneId: Swift.UInt16, parent: IOTClientSDK.Network)
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open func setName(name: Swift.String)
   open func setParent(network: IOTClientSDK.Network?)
   open func addToResourceMap(resource: IOTClientSDK.Resource)
@@ -2649,7 +2690,9 @@ extension IOTClientSDK.Zone : Swift.Equatable {
     public init()
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoReqAvailListenPort : IOTClientSDK.InfoRequestValue {
@@ -2666,9 +2709,9 @@ extension IOTClientSDK.Zone : Swift.Equatable {
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityWrapper : IOTClientSDK.Capability {
-  required public init(from decoder: Swift.Decoder) throws
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
-  public func getAttributeId(id: Swift.Int32) -> IOTClientSDK.AttributeIDProtocol
+  required public init(from decoder: any Swift.Decoder) throws
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityHVACControl : IOTClientSDK.Capability {
@@ -2758,8 +2801,8 @@ extension IOTClientSDK.Zone : Swift.Equatable {
   }
   @_hasMissingDesignatedInitializers public class SetHVACState : IOTClientSDK.CapabilityHVACControl.CommandHVAC {
     public init(settingsJson: Swift.String)
-    public init(powerOnFlag: Swift.CBool, mode: IOTClientSDK.CapabilityHVACControl.HVACMode, temperatureCelsius: Swift.UInt8, fanSpeed: IOTClientSDK.CapabilityHVACControl.FanSpeed)
-    override open func encode(to encoder: Swift.Encoder) throws
+    public init(powerOnFlag: Swift.CBool, mode: IOTClientSDK.CapabilityHVACControl.HVACMode, temperatureCelsius: Swift.Float, fanSpeed: IOTClientSDK.CapabilityHVACControl.FanSpeed)
+    override open func encode(to encoder: any Swift.Encoder) throws
     public var powerOnFlag: Swift.CBool? {
       get
     }
@@ -2769,7 +2812,7 @@ extension IOTClientSDK.Zone : Swift.Equatable {
     public var mode: IOTClientSDK.CapabilityHVACControl.HVACMode? {
       get
     }
-    public var temperatureCelsius: Swift.UInt8? {
+    public var temperatureCelsius: Swift.Float? {
       get
     }
     public var fanSpeed: IOTClientSDK.CapabilityHVACControl.FanSpeed? {
@@ -2781,7 +2824,9 @@ extension IOTClientSDK.Zone : Swift.Equatable {
     public init()
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoRespContentSearch : IOTClientSDK.InfoResponseValue {
@@ -2801,9 +2846,9 @@ public protocol AttributeIDProtocol : Swift.Decodable, Swift.Encodable {
   func getInt() -> Swift.Int32
 }
 open class Capability : Swift.Codable {
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public init(capabilityId: Swift.Int32, parent: IOTClientSDK.Resource)
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open func setName(name: Swift.String?)
   open func addToAttributeMap(attribute: IOTClientSDK.Attribute)
   open func removeFromAttributeMap(attributeId: Swift.Int32)
@@ -2876,9 +2921,12 @@ open class Capability : Swift.Codable {
   public var realCapability: IOTClientSDK.Capability? {
     get
   }
+  public static func getObject(capabilityId: IOTClientSDK.Capability.CapabilityId, eui: Swift.String, deviceNodeId: Swift.UInt32, networkId: Swift.String) -> IOTClientSDK.Capability
   public func getIdentifier(metaData: Swift.String? = nil) -> IOTClientSDK.Identifier
   public func sendResourceCommand(command: IOTClientSDK.Resource.ResourceCommand, handler: ((IOTClientSDK.CommandStateCB) -> Swift.Void)?, commandContext: Swift.UnsafeMutableRawPointer?) throws -> Any?
-  public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class InfoRequestValue : IOTClientSDK.Value {
@@ -2917,11 +2965,11 @@ public enum StatusCode : Swift.Int32, Swift.Codable {
 }
 open class Command : Swift.Codable {
   public init(commandID: Swift.Int32, timeoutMs: Swift.UInt32 = IOTClient.timeout)
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public var commandID: Swift.Int32
   public var timeoutMs: Swift.UInt32
   @objc deinit
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
 }
 public class CommandStateCB {
   public init(networkId: Swift.String, deviceNodeId: Swift.UInt32, resourceEui: Swift.String, capabilityId: IOTClientSDK.Capability.CapabilityId, commandId: Swift.UInt8?, commandResponse: IOTClientSDK.CommandResponse?)
@@ -2983,11 +3031,11 @@ public class CommandStateCB {
   public func saveRuleSetting(resourceActions: [IOTClientSDK.ResourceAction], scheduleConditions: [IOTClientSDK.ScheduleCondition], resourceConditions: [IOTClientSDK.ResourceCondition], sceneActions: [IOTClientSDK.SceneAction], timeoutMs: Swift.UInt32 = IOTClient.timeout, handler: ((IOTClientSDK.NetworkCMDStatus) -> Swift.Void)?) throws -> Swift.Bool
   public func removeResourceActions(resourceActions: [IOTClientSDK.ResourceAction], timeoutMs: Swift.UInt32 = IOTClient.timeout, handler: ((IOTClientSDK.NetworkCMDStatus) -> Swift.Void)?) throws -> Swift.Bool
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 final public class ConnectParams : Swift.Codable {
   public init()
@@ -3012,8 +3060,8 @@ final public class ConnectParams : Swift.Codable {
   final public func setUserRole(_ userRole: IOTClientSDK.Network.UserRole)
   final public func setAccessType(_ accessType: IOTClientSDK.Network.AccessType)
   @objc deinit
-  final public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityHumiditySensing : IOTClientSDK.Capability {
   public enum AttributeId : Swift.Int32, IOTClientSDK.AttributeIDProtocol, Swift.Hashable, Swift.Codable, Swift.CaseIterable {
@@ -3048,7 +3096,9 @@ final public class ConnectParams : Swift.Codable {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 public class StorageContentMetadata {
@@ -3127,8 +3177,8 @@ public class StorageContentMetadata {
     public var yCoordinate: Swift.Double?
     public var environmentalFactor: Swift.Double?
     @objc deinit
-    public func encode(to encoder: Swift.Encoder) throws
-    required public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    required public init(from decoder: any Swift.Decoder) throws
   }
   @_hasMissingDesignatedInitializers public class BeaconLocation : Swift.Codable {
     public var locationId: Swift.String?
@@ -3141,8 +3191,8 @@ public class StorageContentMetadata {
     public var errorPrecision: Swift.Double?
     public var avgTimeDuration: Swift.Int?
     @objc deinit
-    public func encode(to encoder: Swift.Encoder) throws
-    required public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    required public init(from decoder: any Swift.Decoder) throws
   }
   @_hasMissingDesignatedInitializers public class StationaryPositionCommand : IOTClientSDK.Resource.ResourceCommand {
     public init(commandId: IOTClientSDK.CapabilityStationaryPosition.CommandId)
@@ -3152,7 +3202,9 @@ public class StorageContentMetadata {
     public init(locationId: Swift.String, lotId: Swift.String, xCoordinate: Swift.Double, yCoordinate: Swift.Double, environmentalFactor: Swift.Double)
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoReqContentPlayback : IOTClientSDK.InfoRequestValue {
@@ -3240,7 +3292,9 @@ public class StorageContentMetadata {
     public init()
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CommandRemoteResp : IOTClientSDK.CommandResponse {
@@ -3335,7 +3389,9 @@ public class StorageContentMetadata {
     }
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 public protocol CocoCallbackDelegate {
@@ -3455,7 +3511,9 @@ extension IOTClientSDK.CocoCallbackDelegate {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 public class ScheduleCondition : Swift.Hashable, Swift.Codable {
@@ -3501,21 +3559,21 @@ public class ScheduleCondition : Swift.Hashable, Swift.Codable {
   public static func == (lhs: IOTClientSDK.ScheduleCondition, rhs: IOTClientSDK.ScheduleCondition) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers public class InfoRespRemotePairCap : IOTClientSDK.InfoResponseValue {
-  public init(capabilityId: IOTClientSDK.Capability.CapabilityId, commandIdArray: [IOTClientSDK.CommandIDProtocol], attributeIdArray: [IOTClientSDK.AttributeIDProtocol])
+  public init(capabilityId: IOTClientSDK.Capability.CapabilityId, commandIdArray: [any IOTClientSDK.CommandIDProtocol], attributeIdArray: [any IOTClientSDK.AttributeIDProtocol])
   public var capabilityId: IOTClientSDK.Capability.CapabilityId {
     get
   }
-  public var commandIdArray: [IOTClientSDK.CommandIDProtocol] {
+  public var commandIdArray: [any IOTClientSDK.CommandIDProtocol] {
     get
   }
-  public var attributeIdArray: [IOTClientSDK.AttributeIDProtocol] {
+  public var attributeIdArray: [any IOTClientSDK.AttributeIDProtocol] {
     get
   }
   @objc deinit
@@ -3657,7 +3715,9 @@ extension IOTClientSDK.Network {
     public init(commandID: IOTClientSDK.CapabilityContactSensing.CommandId)
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class InfoRespContentPlayback : IOTClientSDK.InfoResponseValue {
@@ -3744,7 +3804,9 @@ extension IOTClientSDK.Network {
     public init()
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 public enum ERROR_NO : Swift.Int32 {
@@ -3879,7 +3941,9 @@ public enum COCO_ERROR : Swift.Error {
     }
     @objc deinit
   }
-  required public init(from decoder: Swift.Decoder) throws
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  required public init(from decoder: any Swift.Decoder) throws
   override public init(capabilityId: Swift.Int32, parent: IOTClientSDK.Resource)
   @objc deinit
 }
@@ -3936,7 +4000,9 @@ public enum COCO_ERROR : Swift.Error {
       get
     }
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_inheritsConvenienceInitializers public class CapabilityStorageCofig : IOTClientSDK.Capability {
@@ -3959,6 +4025,7 @@ public enum COCO_ERROR : Swift.Error {
   public enum CommandId : Swift.Int32, IOTClientSDK.CommandIDProtocol, Swift.Hashable, Swift.Codable, Swift.CaseIterable {
     case COCO_STD_CMD_STORAGE_CONFIG_MIN
     case COCO_STD_CMD_STORAGE_CONFIG
+    case COCO_STD_CMD_STORAGE_CONFIG_UNCONFIGURE
     case COCO_STD_CMD_STORAGE_CONFIG_MAX
     case COCO_STD_CMD_STORAGE_CONFIG_UBOUND
     public func getInt() -> Swift.Int32
@@ -3976,11 +4043,17 @@ public enum COCO_ERROR : Swift.Error {
     public init(storageNodeId: Swift.UInt32, resourceEui: Swift.String)
     @objc deinit
   }
+  public class DeconfigureStorageNode : IOTClientSDK.CapabilityStorageCofig.CommandStorageCofig {
+    public init(storageNodeId: Swift.UInt32, resourceEui: Swift.String)
+    @objc deinit
+  }
   @_hasMissingDesignatedInitializers public class CommandStorageCofig : IOTClientSDK.Resource.ResourceCommand {
     public init(commandID: IOTClientSDK.CapabilityStorageCofig.CommandId)
     @objc deinit
   }
-  required public init(from decoder: Swift.Decoder) throws
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  required public init(from decoder: any Swift.Decoder) throws
   override public init(capabilityId: Swift.Int32, parent: IOTClientSDK.Resource)
   @objc deinit
 }
@@ -4220,7 +4293,9 @@ public enum CacheManager {
     }
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
   @objc deinit
 }
 public protocol OAuthDelegate {
@@ -4275,11 +4350,11 @@ public class ResourceCondition : Swift.Hashable, Swift.Codable {
   public static func == (lhs: IOTClientSDK.ResourceCondition, rhs: IOTClientSDK.ResourceCondition) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CapabilityMotionSensing : IOTClientSDK.Capability {
   public enum AttributeId : Swift.Int32, IOTClientSDK.AttributeIDProtocol, Swift.Hashable, Swift.Codable, Swift.CaseIterable {
@@ -4343,7 +4418,9 @@ public class ResourceCondition : Swift.Hashable, Swift.Codable {
     public init(sensitivityPct: Swift.UInt8)
     @objc deinit
   }
-  override public func supports(commandId: IOTClientSDK.CommandIDProtocol?) -> Swift.Bool
+  override public func supportsNotifications(attributeId: Swift.Int) -> Swift.Bool
+  override public func supports(commandId: (any IOTClientSDK.CommandIDProtocol)?) -> Swift.Bool
+  override public func getAttributeId(id: Swift.Int32) -> any IOTClientSDK.AttributeIDProtocol
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class ResourceAction : Swift.Codable {
@@ -4360,8 +4437,8 @@ public class ResourceCondition : Swift.Hashable, Swift.Codable {
     get
   }
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
-  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers public class InfoReqSearch : IOTClientSDK.InfoRequestValue {
   public init(reqSearchCount: Swift.UInt8, offsetIndex: Swift.UInt32, searchType: IOTClientSDK.InfoReqSearch.SearchType, searchCriteria: Any, sourceUri: IOTClientSDK.SourceURI?, sortByType: IOTClientSDK.InfoReqSearch.SortByType, sortByOrder: IOTClientSDK.InfoReqSearch.SortByOrder)
@@ -4494,11 +4571,11 @@ public class SearchCriteriaBrand {
   public func getObjectOfAttribute() -> IOTClientSDK.Attribute?
   public func getObject(identifierType: IOTClientSDK.Identifier.IdentifierType) -> Any?
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers public class UploadTriggerURI : IOTClientSDK.Identifier {
   public init(networkId: Swift.String, nodeId: Swift.UInt32?, resourceEUI: Swift.String?, capabilityId: IOTClientSDK.Capability.CapabilityId, attributeId: Swift.Int32, sceneId: Swift.UInt16?, ruleId: Swift.UInt16?)
@@ -4515,9 +4592,9 @@ public class SearchCriteriaBrand {
   @objc deinit
 }
 open class Scene : Swift.Hashable, Swift.Codable {
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public init(sceneId: Swift.UInt16, parent: IOTClientSDK.Network?)
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open func setName(name: Swift.String)
   open func setMetadata(metadata: Swift.String?)
   open func addToActionMap(resourceAction: IOTClientSDK.ResourceAction)
@@ -4580,9 +4657,9 @@ public enum NodeType : Swift.Int32, Swift.Codable {
   }
 }
 open class Network : Swift.Codable {
-  required public init(from decoder: Swift.Decoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
   public init(id: Swift.String)
-  open func encode(to encoder: Swift.Encoder) throws
+  open func encode(to encoder: any Swift.Encoder) throws
   open func setName(name: Swift.String)
   open func setUserRole(userRole: IOTClientSDK.Network.UserRole)
   open func setAccessType(accessType: IOTClientSDK.Network.AccessType)
