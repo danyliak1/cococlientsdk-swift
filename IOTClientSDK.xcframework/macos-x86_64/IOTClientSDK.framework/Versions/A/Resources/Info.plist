@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>339</string>
 	<key>CONAN_CHANNEL</key>
-	<string>develop</string>
+	<string>release</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
