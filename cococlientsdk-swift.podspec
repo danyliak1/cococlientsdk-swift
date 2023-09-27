@@ -1,15 +1,7 @@
-#
-# Be sure to run `pod lib lint CocoMediaSDK.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = 'cococlientsdk-swift'
-  s.version          = '0.0.6'
-  s.summary          = 'A library to wrap libcocomediasdk.'
+  s.version          = '0.0.7'
+  s.summary          = 'A library to wrap cococlientsdk.'
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,8 +10,8 @@ Pod::Spec.new do |s|
   #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-  Swift wrappers around libcocomediasdk.so,
-  this wrapper can be used rapid develop of COCO media applications on iOS platform.
+  Swift wrappers around cococlientsdk,
+  this wrapper can be used rapid develop of COCO applications on iOS platform.
   DESC
 
   s.homepage         = 'https://github.com/danyliak1/cococlientsdk-swift'
