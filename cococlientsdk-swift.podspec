@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'cococlientsdk-swift'
-  s.version          = 'master0.0.2'
+  s.version          = '0.0.7'
   s.summary          = 'A library to wrap libcocomediasdk.'
 
   # This description is used to generate tags and improve search results.
